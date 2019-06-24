@@ -16,7 +16,7 @@ export default function(state,action){
             }else{
               return action.payload;
             }
-            break;
+            return {...state, regsitration: state};
         default:
             return state;
     }

@@ -29,7 +29,7 @@ class App extends Component {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-
+    isRegister
   }, dispatch);
 
 }
