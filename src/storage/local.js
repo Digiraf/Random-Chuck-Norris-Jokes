@@ -58,9 +58,6 @@ export function removeFavJoke(newjoke,scope){
           })
 
 }
-export function getFavJokes(id){
-
-}
 export function setItemInStorage(dataKey, data){
     localStorage.setItem(dataKey, JSON.stringify(data));
 }
