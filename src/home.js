@@ -8,12 +8,12 @@ import {
   bindActionCreators
 } from 'redux';
 import {isRegister,getJokes} from './actions/index';
-import {isFav,setFavJoke} from './storage/local';
+import {isFav,setFavJoke,removeFavJoke,getFavList} from './storage/local';
 class App extends Component {
   componentDidMount() {
       if(this.props.register&&!this.props.register.state){
               this.props.isRegister(['state','remote']);
-                this.getRemoteList()
+                this.getJokesList()
       }
   }
   activeList(key){
@@ -25,12 +25,22 @@ class App extends Component {
   }
   getRemoteJokesBttn(){
     return (
-      <div className={this.activeList('remote')} aria-labelledby="home"><span role="img" aria-labelledby="home">🏠</span></div>
+      <div onClick={
+        ()=>{
+            this.props.isRegister(['state','remote']);
+              this.getJokesList()
+        }
+      } className={this.activeList('remote')} aria-labelledby="home"><span role="img" aria-labelledby="home">🏠</span></div>
     )
   }
   getLocalJokesBttn(){
     return (
-      <div className={this.activeList('local')} aria-labelledby="favorite"><span role="img" aria-labelledby="home">🌟</span></div>
+      <div onClick={
+        ()=>{
+            this.props.isRegister(['state','local'])
+            this.getJokesList()
+        }
+      } className={this.activeList('local')} aria-labelledby="favorite"><span role="img" aria-labelledby="home">🌟</span></div>
     )
   }
   jokesBar(){
@@ -56,34 +66,47 @@ class App extends Component {
       }
 
   }
-  getRemoteList(){
-      var scope=this;
+  getJokesList(){
+      const scope=this;
+      if(this.props.register.state==='remote'){
 
-      getJokes(5,this,(jokes)=>{
+        getJokes(5,this,(jokes)=>{
 
-          if(jokes&&jokes.type&&jokes.type==='success'){
-            console.log(jokes.value)
-            scope.props.isRegister(['jokes',jokes.value])
-          }
-            scope.props.isRegister(['loading',false]);
-      })
+            if(jokes&&jokes.type&&jokes.type==='success'){
+              console.log(jokes.value)
+              scope.props.isRegister(['jokes',jokes.value])
+            }
+              scope.props.isRegister(['loading',false]);
+        })
+      }else if(this.props.register.state==='local'){
+              scope.props.isRegister(['jokes',getFavList()])
+                scope.props.isRegister(['loading',false]);
+      }
+
 
   }
   prettyJoke(joke){
     return joke.replace(/&quot;/g,'"')
   }
-  favstatus(id){
-      if(!isFav(id)){
+  favstatus(joke){
+      if(!isFav(joke)){
         return "active"
       }else{
         return ""
       }
   }
-  getFavBttn(joke){
 
-    return (<span onClick={()=>{
-          setFavJoke(joke)
-    }} className={"favIcon "+this.favstatus(joke.id)} role="img" aria-labelledby="add favorite">⭐</span>)
+  getFavBttn(joke){
+    if(this.props.register.state==='remote'){
+      return (<span onClick={()=>{
+            setFavJoke(joke)
+      }} className={"favIcon "+this.favstatus(joke)} role="img" aria-labelledby="add favorite">⭐</span>)
+    }else{
+      return (<span onClick={()=>{
+            removeFavJoke(joke)
+      }} className={"favIcon "+this.favstatus(joke)} role="img" aria-labelledby="remove favorite">🗑</span>)
+    }
+
 
   }
   renderJokes(){
@@ -92,7 +115,7 @@ class App extends Component {
               return (
 
                   <div key={joke.id} className="joke">
-                      {joke.joke}
+                      {this.prettyJoke(joke.joke)}
                       {this.getFavBttn(joke)}
                   </div>
               )

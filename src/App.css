@@ -49,11 +49,16 @@
   font-size: 30px;
 }
 .favIcon{
-  float:right;
+
     font-size: 30px;
+    position: absolute;
+    bottom: 10px;
+    right:10px;
+    padding: 4px;
 }
 .joke{
-  padding:20px;
+  position: relative;;
+  padding:40px;
   margin-top:10px;
   border:3px double rgba(0,0,0,0.1);
   border-top-right-radius: 10px;

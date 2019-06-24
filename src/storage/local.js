@@ -1,21 +1,61 @@
 export function setFavJoke(joke){
-      setItemInStorage('jokes',null);
       if(getItemFromStorage('jokes')){
-        var tmp=getItemFromStorage('jokes');
-          setItemInStorage('jokes',tmp.push(joke));
+        if(!isFav(joke)){
+          var tmp=getItemFromStorage('jokes').jokes;
+          if(tmp.length===10){
+            tmp.shift()
+          }
+
+            tmp.push(joke);
+          setItemInStorage('jokes',{"jokes":tmp});
+        }
+
 
       }else{
-        setItemInStorage('jokes',[joke]);
+     setItemInStorage('jokes',{"jokes":[joke]});
 
       }
       console.log(getItemFromStorage('jokes'));
 }
-export function isFav(id){
-    return true
+export function isFav(newjoke){
+  if(getItemFromStorage('jokes')){
+          if(newjoke.categories&&newjoke.categories.length>0){
+            newjoke.category=newjoke.categories.join("_");
+          }else{
+            newjoke.category='jokers_case';
+          }
+        var exist=false;
+        for(var i=0;i<getItemFromStorage('jokes').jokes.length;i++){
+              const joke=getItemFromStorage('jokes').jokes[i]
+
+              if(joke.id===newjoke.id&&joke.category===newjoke.category){
+                  exist= true;
+              }
+        }
+
+      return exist;
+  }else{
+    return false;
+  }
+
 }
-export function removeFavJoke(id){
-  if(getItemFromStorage(id)){
-    setItemInStorage(id,null)
+export function getFavList(){
+  if(getItemFromStorage('jokes')&&getItemFromStorage('jokes').jokes){
+    return getItemFromStorage('jokes').jokes;
+  }else{
+    return [];
+  }
+}
+export function removeFavJoke(newjoke){
+  if(isFav(newjoke)){
+    var newJokes=[];
+    for(var i=0;i<getItemFromStorage('jokes').jokes.length;i++){
+          const joke=getItemFromStorage('jokes').jokes[i]
+          if(joke.id!==newjoke.id&&joke.category!==newjoke.category){
+              newJokes.push(joke)
+          }
+    }
+    setItemInStorage('jokes',{"jokes":newJokes});
   }
 }
 export function getFavJokes(id){
