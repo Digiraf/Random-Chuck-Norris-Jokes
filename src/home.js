@@ -194,7 +194,7 @@ class App extends Component {
     }
     timerBar(){
 
-      if(this.props.register.timerInterval &&this.props.register.state==='local'){
+      if(this.props.register.timerInterval &&this.props.register.state==='remote'){
 
         return (<div className="timerBar" style={{width:(window.jokertime/Config.max*100)+"%"}}>
         </div>)
