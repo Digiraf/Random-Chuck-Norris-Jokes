@@ -36,7 +36,7 @@
   padding: 10px;
   margin: auto;
   background: #FFF;
-    border:3px double #ccc;
+    border:3px solid rgba(0,0,0,0.1);
 }
 .loader{
   margin:auto;
@@ -47,4 +47,26 @@
 }
 .emojijoker{
   font-size: 30px;
+}
+.favIcon{
+  float:right;
+    font-size: 30px;
+}
+.joke{
+  padding:20px;
+  margin-top:10px;
+  border:3px double rgba(0,0,0,0.1);
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 2s linear;
+}
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 2s, opacity 2s linear;
 }

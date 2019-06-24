@@ -1,8 +1,22 @@
 export function setFavJoke(joke){
+      setItemInStorage('jokes',null);
+      if(getItemFromStorage('jokes')){
+        var tmp=getItemFromStorage('jokes');
+          setItemInStorage('jokes',tmp.push(joke));
 
+      }else{
+        setItemInStorage('jokes',[joke]);
+
+      }
+      console.log(getItemFromStorage('jokes'));
+}
+export function isFav(id){
+    return true
 }
 export function removeFavJoke(id){
-
+  if(getItemFromStorage(id)){
+    setItemInStorage(id,null)
+  }
 }
 export function getFavJokes(id){
 
