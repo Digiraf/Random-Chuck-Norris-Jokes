@@ -8,15 +8,15 @@ import {
   bindActionCreators
 } from 'redux';
 
-import reducers from "./reducers";
-import thunk from 'redux-thunk';
-
 class App extends Component {
   constructor(props) {
     super(props);
   }
   componentDidMount() {
+      if(this.props.register&&!this.props.register.state){
+              this.props.isRegister(['state','store']);
 
+      }
 
   }
   render() {

@@ -16,6 +16,7 @@ export default function(state,action){
             }else{
               return action.payload;
             }
+            break;
         default:
             return state;
     }
