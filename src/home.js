@@ -74,7 +74,7 @@ class App extends Component {
             }
             this.setTimer()
           }
-        } className={'timer'+this.timerStatusClass()} aria-labelledby="home"><span role="img" aria-labelledby="home">🕐</span></div>
+        } className={'timer'+this.timerStatusClass()} aria-labelledby="home"><span role="img" aria-labelledby="home">🕐</span>{this.timerBar()}</div>
       )
     }
 
@@ -112,8 +112,8 @@ class App extends Component {
         clearInterval(window.jokesInterval);
         window.jokesInterval=setInterval(function(){
         if(!scope.props.register.loading){
-          if(!window.jokertime||window.jokertime>Config.timeout)window.jokertime=0;
-          if(window.jokertime>=Config.timeout){
+          if(!window.jokertime||window.jokertime>Config.max)window.jokertime=0;
+          if(window.jokertime>=Config.max){
               window.jokertime=0;
               scope.getJokesList();
           }else{
@@ -122,6 +122,7 @@ class App extends Component {
         }else{
             window.jokertime=0;
         }
+        scope.forceUpdate();
 
         },1000)
     }
@@ -182,6 +183,7 @@ class App extends Component {
                   <div key={joke.id} className="joke">
                       {this.prettyJoke(joke.joke)}
                       {this.getFavBttn(joke)}
+                      {this.timerBar()}
                   </div>
               )
           })
@@ -191,8 +193,10 @@ class App extends Component {
 
     }
     timerBar(){
+
       if(this.props.register.timerInterval){
-        return (<div className="timerBar">
+
+        return (<div className="timerBar" style={{width:(window.jokertime/Config.max*100)+"%"}}>
         </div>)
       }
     }

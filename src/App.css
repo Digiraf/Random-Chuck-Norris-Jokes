@@ -53,12 +53,21 @@
 .timerBar {
   width: 0px;
   position: absolute;
-  height: 4px;
-  border: 4px double #000;
-  background: #000;
-  top: 0;
+  height: 5px;
+  background: rgba(0,0,0,0.3);
+  bottom: 0;
   left: 0;
-  height: 100%;
+  height: 1px;;
+  padding: 0!important;
+  border-radius: 4px;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #feccb1 0%, #f17432 50%, #ea5507 51%, #fb955e 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #feccb1 0%, #f17432 50%, #ea5507 51%, #fb955e 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #feccb1 0%, #f17432 50%, #ea5507 51%, #fb955e 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#feccb1', endColorstr='#fb955e', GradientType=0);
 }
 
 .emojijoker {
@@ -109,6 +118,14 @@
   -o-animation: fadein 2s;
   /* Opera < 12.1 */
   animation: fadein 2s;
+  overflow: hidden;
+}
+.joke .timerBar{
+  opacity: 0.3;
+  border: none;
+    height: 4px;
+    border-radius: 0;
+    background: #000;
 }
 
 @keyframes fadein {
@@ -202,6 +219,7 @@ margin: 0;
   margin: auto;
   left: none;
   border: #f17432 solid 2px !important;
+  overflow: hidden;
 }
 
 .timer.active {
@@ -221,4 +239,7 @@ margin: 0;
   font-weight: 800;
     text-transform: uppercase;
 
+}
+*{
+  transition: all 1s ease-out;
 }
