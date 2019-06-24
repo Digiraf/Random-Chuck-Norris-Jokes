@@ -161,6 +161,7 @@ class App extends Component {
     if(this.props.register.state==='remote'&&!isFav(joke)){
       return (<span onClick={()=>{
             setFavJoke(joke)
+              this.forceUpdate()
       }} className={"favIcon "+this.favstatus(joke)} role="img" aria-labelledby="add favorite">⭐</span>)
     }else{
       return (<span onClick={()=>{
