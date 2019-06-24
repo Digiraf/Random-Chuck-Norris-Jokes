@@ -30,7 +30,7 @@ class App extends Component {
         ()=>{
             if(!this.props.register.loading){
                 window.jokertime=0;
-            
+
             this.props.isRegister(['state','remote']);
 
   this.getJokesList()
@@ -158,7 +158,7 @@ class App extends Component {
   }
 
   getFavBttn(joke){
-    if(this.props.register.state==='remote'){
+    if(this.props.register.state==='remote'&&!isFav(joke)){
       return (<span onClick={()=>{
             setFavJoke(joke)
       }} className={"favIcon "+this.favstatus(joke)} role="img" aria-labelledby="add favorite">⭐</span>)
@@ -167,6 +167,7 @@ class App extends Component {
 
           removeFavJoke(joke);
           this.props.isRegister(['jokes',getFavList()])
+          this.forceUpdate()
       }} className={"favIcon "+this.favstatus(joke)} role="img" aria-labelledby="remove favorite">🗑</span>)
     }
 
@@ -197,6 +198,7 @@ class App extends Component {
   render() {
     return (
       <div className="jokeshome">
+          <div className="hometitle">Chuck Norris Joke application</div>
           {this.jokesBar()}
 
           <div className="jokesList">

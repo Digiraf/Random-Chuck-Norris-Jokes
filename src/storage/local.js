@@ -54,9 +54,9 @@ export function removeFavJoke(newjoke,scope){
             }else{
                 newJokes.push(joke)
             }
-            setItemInStorage('jokes',{"jokes":newJokes});
-          })
 
+          })
+          setItemInStorage('jokes',{"jokes":newJokes});
 }
 export function setItemInStorage(dataKey, data){
     localStorage.setItem(dataKey, JSON.stringify(data));
