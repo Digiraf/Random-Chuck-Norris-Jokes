@@ -1,33 +1,50 @@
-.App {
+.jokesbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #feccb1; /* Old browsers */
+  background: -moz-linear-gradient(top,  #feccb1 0%, #f17432 50%, #ea5507 51%, #fb955e 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top,  #feccb1 0%,#f17432 50%,#ea5507 51%,#fb955e 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom,  #feccb1 0%,#f17432 50%,#ea5507 51%,#fb955e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feccb1', endColorstr='#fb955e',GradientType=0 ); /* IE6-9 */
+  margin:auto;
+
+    border-radius: 4px;
+    max-width: 152px;;
+}
+
+.jokesbar div {
+  font-weight: bold;
   text-align: center;
+  width:50px;
+  cursor: pointer;
+  padding: 10px;
+  margin: auto;
+  font-size: 24px;
+  float: left;
+  border:3px double transparent;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.bttn.active {
+  font-weight: bold;
+  text-align: center;
+  width:50px;
+  float: left;
+  cursor: pointer;
+  padding: 10px;
+  margin: auto;
+  background: #FFF;
+    border:3px double #ccc;
 }
-
-.App-link {
-  color: #61dafb;
+.loader{
+  margin:auto;
+  width:100px;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.emojijoker{
+  font-size: 30px;
 }
