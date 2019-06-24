@@ -15,7 +15,6 @@ export function setFavJoke(joke){
      setItemInStorage('jokes',{"jokes":[joke]});
 
       }
-      console.log(getItemFromStorage('jokes'));
 }
 export function isFav(newjoke){
   if(getItemFromStorage('jokes')){
@@ -46,17 +45,18 @@ export function getFavList(){
     return [];
   }
 }
-export function removeFavJoke(newjoke){
-  if(isFav(newjoke)){
-    var newJokes=[];
-    for(var i=0;i<getItemFromStorage('jokes').jokes.length;i++){
-          const joke=getItemFromStorage('jokes').jokes[i]
-          if(joke.id!==newjoke.id&&joke.category!==newjoke.category){
-              newJokes.push(joke)
-          }
-    }
-    setItemInStorage('jokes',{"jokes":newJokes});
-  }
+export function removeFavJoke(newjoke,scope){
+
+          var newJokes=[];
+          getItemFromStorage('jokes').jokes.map((joke)=>{
+            if(joke.id===newjoke.id&&joke.category===newjoke.category){
+                //ignore
+            }else{
+                newJokes.push(joke)
+            }
+            setItemInStorage('jokes',{"jokes":newJokes});
+          })
+
 }
 export function getFavJokes(id){
 

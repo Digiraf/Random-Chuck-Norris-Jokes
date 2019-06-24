@@ -9,6 +9,7 @@ import {
 } from 'redux';
 import {isRegister,getJokes} from './actions/index';
 import {isFav,setFavJoke,removeFavJoke,getFavList} from './storage/local';
+import Config from './config/config'
 class App extends Component {
   componentDidMount() {
       if(this.props.register&&!this.props.register.state){
@@ -27,8 +28,12 @@ class App extends Component {
     return (
       <div onClick={
         ()=>{
+            if(!this.props.register.loading){
+
             this.props.isRegister(['state','remote']);
-              this.getJokesList()
+
+  this.getJokesList()
+            }
         }
       } className={this.activeList('remote')} aria-labelledby="home"><span role="img" aria-labelledby="home">🏠</span></div>
     )
@@ -37,17 +42,49 @@ class App extends Component {
     return (
       <div onClick={
         ()=>{
-            this.props.isRegister(['state','local'])
-            this.getJokesList()
+            if(!this.props.register.loading){
+              this.props.isRegister(['timerInterval',null]);
+              this.props.isRegister(['state','local']);
+              this.props.isRegister(['jokes',getFavList()])
+
+            }
+
         }
       } className={this.activeList('local')} aria-labelledby="favorite"><span role="img" aria-labelledby="home">🌟</span></div>
     )
+  }
+  timerStatusClass(){
+    if(this.props.register.timerInterval){
+      return ' active'
+    }
+    return '';
+
+  }
+  timerButton(){
+    if(this.props.register.state!=='local'){
+      return (
+        <div onClick={
+          ()=>{
+            if(this.props.register.timerInterval){
+              this.props.isRegister(['timerInterval',false]);
+
+            }else{
+              this.props.isRegister(['timerInterval',true]);
+            }
+            this.setTimer()
+          }
+        } className={'timer'+this.timerStatusClass()} aria-labelledby="home"><span role="img" aria-labelledby="home">🕐</span></div>
+      )
+    }
+
   }
   jokesBar(){
     return (
       <div className="jokesbar">
         {this.getRemoteJokesBttn()}
         {this.getLocalJokesBttn()}
+
+        {this.timerButton()}
       </div>
     )
   }
@@ -66,21 +103,39 @@ class App extends Component {
       }
 
   }
+  setTimer(status){
+    var scope=this;
+    if(!this.props.register.timerInterval){
+      clearInterval(window.jokesInterval);
+    }else{
+        window.jokesInterval=setInterval(function(){
+          if(!window.jokertime||window.jokertime>Config.timeout)window.jokertime=0;
+          if(window.jokertime===Config.timeout){
+              window.jokertime=0;
+              scope.getJokesList();
+          }else{
+              window.jokertime += 1;
+          }
+
+        },1000)
+    }
+  }
   getJokesList(){
       const scope=this;
       if(this.props.register.state==='remote'){
 
-        getJokes(5,this,(jokes)=>{
+        getJokes(Config.max,this,(jokes)=>{
 
             if(jokes&&jokes.type&&jokes.type==='success'){
-              console.log(jokes.value)
+                    scope.props.isRegister(['loading',false]);
               scope.props.isRegister(['jokes',jokes.value])
             }
-              scope.props.isRegister(['loading',false]);
+
         })
       }else if(this.props.register.state==='local'){
-              scope.props.isRegister(['jokes',getFavList()])
+
                 scope.props.isRegister(['loading',false]);
+                scope.props.isRegister(['jokes',getFavList()])
       }
 
 
@@ -103,7 +158,9 @@ class App extends Component {
       }} className={"favIcon "+this.favstatus(joke)} role="img" aria-labelledby="add favorite">⭐</span>)
     }else{
       return (<span onClick={()=>{
-            removeFavJoke(joke)
+
+          removeFavJoke(joke);
+          this.props.isRegister(['jokes',getFavList()])
       }} className={"favIcon "+this.favstatus(joke)} role="img" aria-labelledby="remove favorite">🗑</span>)
     }
 
@@ -125,11 +182,17 @@ class App extends Component {
         }
 
     }
-
+    timerBar(){
+      if(this.props.register.timerInterval){
+        return (<div className="timerBar">
+        </div>)
+      }
+    }
   render() {
     return (
       <div>
           {this.jokesBar()}
+
           <div className="jokesList">
           {this.loader()}
           {this.renderJokes()}
