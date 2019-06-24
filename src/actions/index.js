@@ -3,12 +3,9 @@ import Config from '../config/config'
 export function getJokes(max,scope,cb){
   scope.props.isRegister(['loading',true]);
   serverRequest("get",max,{},response => {
-
           if(response.status&&response.res){
             cb(response.res);
           }
-
-
   });
 }
 export  function isRegister(data){

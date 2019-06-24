@@ -109,12 +109,14 @@ class App extends Component {
       clearInterval(window.jokesInterval);
     }else{
         window.jokesInterval=setInterval(function(){
+          if(!scope.props.register.loading){
           if(!window.jokertime||window.jokertime>Config.timeout)window.jokertime=0;
           if(window.jokertime===Config.timeout){
               window.jokertime=0;
               scope.getJokesList();
           }else{
               window.jokertime += 1;
+          }
           }
 
         },1000)
