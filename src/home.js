@@ -29,13 +29,14 @@ class App extends Component {
       <div onClick={
         ()=>{
             if(!this.props.register.loading){
-
+                window.jokertime=0;
+            
             this.props.isRegister(['state','remote']);
 
   this.getJokesList()
             }
         }
-      } className={this.activeList('remote')} aria-labelledby="home"><span role="img" aria-labelledby="home">🏠</span></div>
+      } className={this.activeList('remote')} aria-labelledby="home"><span role="img" aria-labelledby="home">😂🔄</span></div>
     )
   }
   getLocalJokesBttn(){
@@ -43,7 +44,7 @@ class App extends Component {
       <div onClick={
         ()=>{
             if(!this.props.register.loading){
-              this.props.isRegister(['timerInterval',null]);
+
               this.props.isRegister(['state','local']);
               this.props.isRegister(['jokes',getFavList()])
 
@@ -96,7 +97,7 @@ class App extends Component {
   loader(){
       if(this.props.register.loading){
         return(
-          <div className="loader">loading jokes{this.getJoker()}</div>
+          <div className="loader">loading jokes. Please wait for it<br/>{this.getJoker()}</div>
         )
       }else{
         return null;
@@ -108,16 +109,19 @@ class App extends Component {
     if(!this.props.register.timerInterval){
       clearInterval(window.jokesInterval);
     }else{
+        clearInterval(window.jokesInterval);
         window.jokesInterval=setInterval(function(){
-          if(!scope.props.register.loading){
+        if(!scope.props.register.loading){
           if(!window.jokertime||window.jokertime>Config.timeout)window.jokertime=0;
-          if(window.jokertime===Config.timeout){
+          if(window.jokertime>=Config.timeout){
               window.jokertime=0;
               scope.getJokesList();
           }else{
               window.jokertime += 1;
           }
-          }
+        }else{
+            window.jokertime=0;
+        }
 
         },1000)
     }
@@ -192,7 +196,7 @@ class App extends Component {
     }
   render() {
     return (
-      <div>
+      <div className="jokeshome">
           {this.jokesBar()}
 
           <div className="jokesList">
