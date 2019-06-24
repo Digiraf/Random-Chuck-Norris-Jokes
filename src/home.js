@@ -163,7 +163,7 @@ class App extends Component {
             setFavJoke(joke)
               this.forceUpdate()
       }} className={"favIcon "+this.favstatus(joke)} role="img" aria-labelledby="add favorite">⭐</span>)
-    }else{
+    }else if(this.props.register.state==='local'){
       return (<span onClick={()=>{
 
           removeFavJoke(joke);
