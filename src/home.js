@@ -112,8 +112,8 @@ class App extends Component {
         clearInterval(window.jokesInterval);
         window.jokesInterval=setInterval(function(){
         if(!scope.props.register.loading){
-          if(!window.jokertime||window.jokertime>Config.max)window.jokertime=0;
-          if(window.jokertime>=Config.max){
+          if(!window.jokertime||window.jokertime>Config.timeout)window.jokertime=0;
+          if(window.jokertime>=Config.timeout){
               window.jokertime=0;
               scope.getJokesList();
           }else{
@@ -196,7 +196,7 @@ class App extends Component {
 
       if(this.props.register.timerInterval &&this.props.register.state==='remote'){
 
-        return (<div className="timerBar" style={{width:(window.jokertime/Config.max*100)+"%"}}>
+        return (<div className="timerBar" style={{width:(window.jokertime/Config.timeout*100)+"%"}}>
         </div>)
       }
     }
