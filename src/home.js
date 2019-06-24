@@ -7,7 +7,7 @@ import {
 import {
   bindActionCreators
 } from 'redux';
-
+import {isRegister} from './actions/index';
 class App extends Component {
   constructor(props) {
     super(props);
